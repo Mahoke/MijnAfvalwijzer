@@ -1,0 +1,57 @@
+{
+    "name": "mahoke/mijn-afvalwijzer",
+    "description": "Dependency-free PHP scraper for MijnAfvalwijzer collection calendars.",
+    "type": "library",
+    "license": "MIT",
+    "keywords": ["afvalwijzer", "waste", "calendar", "scraper"],
+    "homepage": "https://github.com/Mahoke/MijnAfvalwijzer",
+    "support": {
+        "issues": "https://github.com/Mahoke/MijnAfvalwijzer/issues",
+        "source": "https://github.com/Mahoke/MijnAfvalwijzer"
+    },
+    "require": {
+        "php": "^8.2",
+        "ext-curl": "*",
+        "ext-dom": "*",
+        "ext-libxml": "*"
+    },
+    "require-dev": {
+        "friendsofphp/php-cs-fixer": "^3.89",
+        "phpstan/phpstan": "^2.1",
+        "phpunit/phpunit": "^11.5"
+    },
+    "autoload": {
+        "psr-4": {"MijnAfvalwijzer\\": "src/"}
+    },
+    "autoload-dev": {
+        "psr-4": {"MijnAfvalwijzer\\Tests\\": "tests/"}
+    },
+    "archive": {
+        "exclude": [
+            "/.editorconfig",
+            "/.gitattributes",
+            "/.github",
+            "/.gitignore",
+            "/.php-cs-fixer.cache",
+            "/.php-cs-fixer.dist.php",
+            "/.phpstan.cache",
+            "/.phpunit.cache",
+            "/composer.lock",
+            "/phpstan.neon.dist",
+            "/phpunit.xml.dist",
+            "/tests",
+            "/vendor"
+        ]
+    },
+    "scripts": {
+        "analyse": "@php vendor/bin/phpstan analyse --no-progress",
+        "check": ["@composer validate --strict", "@analyse", "@test", "@format:check"],
+        "format": "@php vendor/bin/php-cs-fixer fix --diff",
+        "format:check": "@php vendor/bin/php-cs-fixer fix --dry-run --diff",
+        "test": "@php vendor/bin/phpunit"
+    },
+    "config": {
+        "platform": {"php": "8.2.0"},
+        "sort-packages": true
+    }
+}

@@ -1,0 +1,27 @@
+name: Quality checks
+on: [push, pull_request]
+permissions:
+  contents: read
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        php: ['8.2', '8.3', '8.4', '8.5']
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          extensions: curl, dom, libxml, mbstring, xml, xmlwriter
+          tools: composer:v2
+          coverage: none
+      - run: composer validate --strict
+      - run: composer install --no-interaction --prefer-dist
+      - run: find src tests -name '*.php' -print0 | xargs -0 -n1 php -l
+      - name: PHPUnit
+        run: composer test
+      - name: PHPStan
+        run: composer analyse
+      - name: PHP-CS-Fixer
+        run: composer format:check
